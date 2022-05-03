@@ -427,7 +427,8 @@ server <- function(input, output, session) {
     
     else if (input$plot_type2 == "Mean") {
       g_trends %>% model(MEAN(Interest)) %>%
-      autoplot() +
+        forecast(h = 10) %>%
+        autoplot(g_trends) +
         labs(title = "Mean Model of Interest of The Show\"Criminal Minds\"")+
         ggeasy::easy_center_title()+
         ggeasy::easy_all_text_colour(colour = "black")
@@ -436,7 +437,7 @@ server <- function(input, output, session) {
     else if (input$plot_type2 == "Drift") {
       g_trends %>%
         model(RW(Interest ~ drift())) %>%
-        forecast(h = "5 years") %>%
+        forecast(h = "10 years") %>%
         autoplot(g_trends) +
         labs(y = "Number of Interest", title = "Drift Model of The Show \"Criminal Minds\"")+
         ggeasy::easy_center_title()+
