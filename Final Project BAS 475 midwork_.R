@@ -98,7 +98,7 @@ ui <-
       .main-header .logo {
         font-family: "Georgia", Times, "Times New Roman", serif;
         font-weight: bold;
-        font-size: 28px;
+        font-size: 20px;
       }
     '))),
                    
@@ -447,32 +447,33 @@ server <- function(input, output, session) {
   
   output$simple_model_int <- renderText({
     if (input$plot_type2 == "Naive") {
-      noquote(paste(c("The seasonality plot shows that the interest 
-      in the show \"Criminal Minds\" peaks from January until March and 
-      again from June to August. In March 2015, there is a huge jump in interest, 
-      but a huge dip in March 2019 and March 2020. This is probably the cause of 
+      noquote(paste(c("The Naive model shows that there is a cycle and trend and a line 
+      from the last point before the forecast. Also there is some seasonality due to the 
+      data being monthly from January 2005 to January 2020.There is a peak in interest 
+      in March 2019 and March 2020. This is probably the cause of 
       COVID-19 and how popular the show is.", 
                       collapse = " ")))
     } 
     else if (input$plot_type2 == "Seasonal Naive") {
-      noquote(paste(c("The autocorrelation plot shows that the 
-      interest in the show \"Criminal Minds\" is slowing decreasing as the lags
-      increase that is due to seasonality, while the scalloped shape is due to the seasonality. This
-      is likely due to when new seasons come out and the popularity of the show.", collapse = " ")))
+      noquote(paste(c("The Seasonal Naive model shows that there is a trend and seasonal pattern. Also 
+      there is some seasonality due to the data being monthly from January 2005 to January 2020.
+      There is a big jump in the data in January 2010, possibly due to new seasons coming out. 
+      There is also a pattern in the forecasted data from the past during the end of 2019 and into
+      the start of 2020. There is a peak in interest in March 2019 and March 2020. 
+      This is probably the cause of COVID-19 and how popular the show is.", collapse = " ")))
     }
     else if (input$plot_type2 == "Mean") {
-      noquote(paste(c("The X11 decomposition plot shows that the fall in the data
-      in about 2013. The plot also shows a consistent amount
-      of seasonality. Each grey bar represents the same length but because 
-      the plots are on different scales, the bars vary in size. The large grey 
-      bar in the bottom panel shows that the variation in the remainder component 
-      is smallest compared to the variation in the data.", collapse = " ")))
+      noquote(paste(c("The Mean model shows that there is a trend, showing a straight line 
+      from the mean of the data. Also there is some seasonality due to the data being 
+      monthly from January 2005 to January 2020.There is a jump in the data at the end 
+      of 2009 and beginning of 2010. There is a peak in interest in March 2019 and 
+      March 2020. This is probably the cause of COVID-19 and how popular the show is.", collapse = " ")))
     }
     else if (input$plot_type2 == "Drift") {
-      noquote(paste(c("The autocorrelation plot shows that the 
-      interest in the show \"Criminal Minds\" is slowing decreasing as the lags
-      increase that is due to seasonality, while the scalloped shape is due to the seasonality. This
-      is likely due to when new seasons come out and the popularity of the show.", collapse = " ")))
+      noquote(paste(c("The Drift model shows that there is a trend. This model creates a linear
+      model. This model tries to find the trend line, from the first point to the last point 
+      and extrapolates it into the future.The linear model is increasing and shows the average 
+      change seen overtime.", collapse = " ")))
     }
   })    
 }
