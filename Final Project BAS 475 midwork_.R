@@ -520,6 +520,47 @@ server <- function(input, output, session) {
       this is probably the cause of COVID-19 and how popular the show is.", collapse = " ")))
     }
   })
+  
+  ### One of 2 ARIMA plots ###
+  
+  output$arima <- renderPlot({
+    if (input$plot_type4 == "Manually Selected") {
+      g_trends %>%
+        PACF(Interest) %>%
+        autoplot()+
+        labs(title = "The Manually Selected ARIMA Model of The Show \"Criminal Minds\"", y = "Interest") +
+        ggeasy::easy_center_title() +
+        ggeasy::easy_all_text_color(color = "black") 
+      
+    } 
+    
+    else if (input$plot_type4 == "Auto Selected") {
+      g_trends %>%
+        ACF(difference(Interest)) %>%
+        autoplot()+
+        labs(title = "Auto Selected ARIMA Model of The Show \"Criminal Minds\"")+
+        ggeasy::easy_center_title()+
+        ggeasy::easy_all_text_colour(colour = "black")  
+    }
+  })
+  
+  output$arima_int <- renderText({
+    if (input$plot_type4 == "Manually Selected") {
+      noquote(paste(c("The Manually Selected ARIMA Model is not a very good model. There are many results 
+      that are more extreme than others. The black lines go outside of the blue dotted lines which is not good and
+      with some of those lines being longer than others, shows its not a good model. With there being 7 
+      of those lines outside of the bounds, shows that they are statistically significant. This shows 
+      that this is not a very good model.", 
+                      collapse = " ")))
+    } 
+    else if (input$plot_type4 == "Auto Selected") {
+      noquote(paste(c("The Auto Selected ARIMA Model is not a very good model. There are many results 
+      that are more extreme than others. The black lines go outside of the blue dotted lines which is not good and
+      with some of those lines being longer than others, shows its not a good model. With there being 12 
+      of those lines outside of the bounds, shows that they are statistically significant. This shows 
+      that this is not a very good model.", collapse = " ")))
+    }
+  })
 }
 
 #### Run App ####
