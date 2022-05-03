@@ -139,7 +139,7 @@ ui <-
                                tags$br(),
                                
                                tags$h3("* The 6th tab displays your choice in one of two types of 
-                                       exponential smoothing models: Holts and Hols/Winters. "),
+                                       exponential smoothing models: Holts and Holts/Winters. "),
                                
                                tags$br(),
                                
@@ -475,7 +475,51 @@ server <- function(input, output, session) {
       and extrapolates it into the future.The linear model is increasing and shows the average 
       change seen overtime.", collapse = " ")))
     }
-  })    
+  })
+  
+  
+  ### One of 2 exponential smoothing plots ###
+  
+  output$smoothing <- renderPlot({
+    if (input$plot_type3 == "Holts") {
+      g_trends %>%
+        model(ETS(Interest ~ error("A") + trend("A") +
+                    season("N"))) %>%
+        forecast(h = 10) %>%
+        autoplot(g_trends)+
+        labs(title = "The Holts Model of The Show \"Criminal Minds\"", y = "Interest") +
+        ggeasy::easy_center_title() +
+        ggeasy::easy_all_text_color(color = "black") 
+      
+    } 
+    
+    else if (input$plot_type3 == "Holts/Winters") {
+      g_trends %>%
+        model(ETS(Interest ~ error("M") + trend("A") +
+                    season("M"))) %>%
+        forecast(h = 10) %>%
+        autoplot(g_trends)+
+        labs(title = "Holts-Winters Model of The Show \"Criminal Minds\"")+
+        ggeasy::easy_center_title()+
+        ggeasy::easy_all_text_colour(colour = "black")  
+    }
+  })
+  
+  output$smoothing_int <- renderText({
+    if (input$plot_type3 == "Holts") {
+      noquote(paste(c("The Holts model tries to make a linear trend with the data. In this model,
+      it shows that there is a linear trend with this forecast. There is a trend in the data throughout 
+      the years of January 2005 to January 2020. There is some seasonality during March 2019 to March 2020 and 
+      this is probably the cause of COVID-19 and how popular the show is.", 
+                      collapse = " ")))
+    } 
+    else if (input$plot_type3 == "Holts/Winters") {
+      noquote(paste(c("The Holts-Winters' model tries to make a linear seasonality with the data. In this model,
+      it shows that there is a linear seasonality with this forecast. There is a trend in the data throughout 
+      the years of January 2005 to January 2020. There is some seasonality during March 2019 to March 2020 and 
+      this is probably the cause of COVID-19 and how popular the show is.", collapse = " ")))
+    }
+  })
 }
 
 #### Run App ####
